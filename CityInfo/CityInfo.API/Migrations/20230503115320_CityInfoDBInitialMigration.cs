@@ -1,4 +1,4 @@
-﻿﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -23,7 +23,7 @@ namespace CityInfo.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PointsOfInterest",
+                name: "PointOfInterest",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -33,9 +33,9 @@ namespace CityInfo.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PointsOfInterest", x => x.Id);
+                    table.PrimaryKey("PK_PointOfInterest", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PointsOfInterest_Cities_CityId",
+                        name: "FK_PointOfInterest_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
                         principalColumn: "Id",
@@ -43,15 +43,15 @@ namespace CityInfo.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PointsOfInterest_CityId",
-                table: "PointsOfInterest",
+                name: "IX_PointOfInterest_CityId",
+                table: "PointOfInterest",
                 column: "CityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PointsOfInterest");
+                name: "PointOfInterest");
 
             migrationBuilder.DropTable(
                 name: "Cities");
