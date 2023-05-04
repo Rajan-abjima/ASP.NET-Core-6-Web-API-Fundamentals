@@ -1,6 +1,7 @@
 ﻿using CityInfo.API.DBContext;
 using CityInfo.API.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace CityInfo.API.Services
 {
@@ -25,6 +26,12 @@ namespace CityInfo.API.Services
             }
                 return await _context.Cities.Where(c => c.Id == cityId).FirstOrDefaultAsync();
         }
+
+        public async Task<bool> CityExistsAsync(int cityId)
+        {
+            return await _context.Cities.AnyAsync(c => c.Id == cityId);
+        }
+
         public async Task<PointOfInterest?> GetPointOfInterestForCityAsync(int cityId, int pointOfInterestId)
         {
             return await _context.PointsOfInterest
@@ -38,5 +45,20 @@ namespace CityInfo.API.Services
                 .Where(p => p.CityId == cityId).ToListAsync();
         }
 
+        public async Task AddPointOfInterestForCityAsync(int cityId,  PointOfInterest pointOfInterest)
+        {
+            var city = await GetCityAsync(cityId, false);
+            {
+                if (city != null)
+                {
+                    city.PointsOfInterests.Add(pointOfInterest);
+                }
+            }
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await  _context.SaveChangesAsync() >= 0);
+        }
     }
 }
