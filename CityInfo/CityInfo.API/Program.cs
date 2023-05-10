@@ -73,6 +73,8 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+builder.Services.AddApiVersioning();
+
 
 var app = builder.Build();
 
