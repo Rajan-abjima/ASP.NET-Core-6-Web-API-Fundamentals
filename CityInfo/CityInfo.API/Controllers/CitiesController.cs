@@ -10,7 +10,8 @@ namespace CityInfo.API.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/cities")]
+    [ApiVersion("1.0")]
+    [Route("api/v.{version:apiVersion}/cities")]
     public class CitiesController : ControllerBase
     {
         private readonly ICityInfoRepository _cityInfoRepository;
@@ -58,7 +59,17 @@ namespace CityInfo.API.Controllers
          
         }
 
+        /// <summary>
+        /// Get a City by Id
+        /// </summary>
+        /// <param name="id">The Id of city to get</param>
+        /// <param name="includePointsOfInterest">Whether or not to include the points of interest</param>
+        /// <returns>An IActionResult</returns>
+        /// <response code="200">Return the requested city</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetCity(
             int id, bool includePointsOfInterest = false)
         {
